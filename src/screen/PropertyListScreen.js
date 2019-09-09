@@ -5,17 +5,25 @@ import {
   GET,
   PROPERTY_LIST_END_POINT,
 } from '../lib/FetchService';
-import MyListItem from './MyListItem';
+import MyListItem from '../components/MyListItem';
 
-export default class PropertyList extends Component {
+const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+export default class PropertyListScreen extends Component {
   state = {
     loading: false,
     properties: [],
   };
 
-  getPropertyList = async () => {
-    const res = await fetchData(PROPERTY_LIST_END_POINT, null, GET);
-    this.setState({properties: res.data.results});
+  getPropertyList = () => {
+    this.setState({loading: true}, async () => {
+      const res = await fetchData(PROPERTY_LIST_END_POINT, null, GET);
+      // await delay(3000);
+      this.setState({
+        loading: false,
+        properties: res.data.results,
+      });
+    });
 
     // this.setState({loading: true}, () => {
     //   fetchData(PROPERTY_LIST_END_POINT, null, GET)
@@ -48,17 +56,7 @@ export default class PropertyList extends Component {
     // console.log('>>>>>>item');
     // console.log(item);
     return (
-      <Fragment>
-        {this.state.loading ? (
-          <Text>Loading</Text>
-        ) : (
-          <MyListItem
-            id={item.id}
-            property={item}
-            onPressItem={this.onPressItem}
-          />
-        )}
-      </Fragment>
+      <MyListItem id={item.id} property={item} onPressItem={this.onPressItem} />
     );
   };
 
@@ -70,12 +68,16 @@ export default class PropertyList extends Component {
     return (
       <View>
         {/* <Text>{'property list'}</Text> */}
-        <FlatList
-          data={this.state.properties}
-          extraData={this.state}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-      />
+        {this.state.loading ? (
+          <Text>Loading</Text>
+        ) : (
+          <FlatList
+            data={this.state.properties}
+            extraData={this.state}
+            keyExtractor={this.keyExtractor}
+            renderItem={this.renderItem}
+          />
+        )}
       </View>
     );
   }

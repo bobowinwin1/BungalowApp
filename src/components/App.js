@@ -24,13 +24,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import PropertyList from './PropertyList';
+import PropertyListScreen from '../screen/PropertyListScreen';
 
 const App = () => {
   return (
     <Fragment>
       <SafeAreaView>
-        <PropertyList />
+        <PropertyListScreen />
       </SafeAreaView>
     </Fragment>
   );
