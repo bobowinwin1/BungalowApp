@@ -1,11 +1,12 @@
-import React, {Component, Fragment} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, FlatList, StyleSheet, SafeAreaView} from 'react-native';
 import {
   basicFetch as fetchData,
   GET,
   PROPERTY_LIST_END_POINT,
 } from '../lib/FetchService';
 import MyListItem from '../components/MyListItem';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -15,10 +16,16 @@ export default class PropertyListScreen extends Component {
     properties: [],
   };
 
+  static navigationOptions = {
+    title: 'Properties',
+  };
+
   getPropertyList = () => {
     this.setState({loading: true}, async () => {
       const res = await fetchData(PROPERTY_LIST_END_POINT, null, GET);
-      // await delay(3000);
+      console.log('>>>>>>>>>>>>>..');
+      console.log(res);
+      // await delay(3000); //simulate long loading time
       this.setState({
         loading: false,
         properties: res.data.results,
@@ -66,19 +73,32 @@ export default class PropertyListScreen extends Component {
 
   render() {
     return (
-      <View>
-        {/* <Text>{'property list'}</Text> */}
-        {this.state.loading ? (
-          <Text>Loading</Text>
-        ) : (
-          <FlatList
-            data={this.state.properties}
-            extraData={this.state}
-            keyExtractor={this.keyExtractor}
-            renderItem={this.renderItem}
-          />
-        )}
+      <View style={styles.container}>
+        <SafeAreaView>
+          {/* <Text>{'property list'}</Text> */}
+          {this.state.loading ? (
+            <Text>Loading...</Text>
+          ) : (
+            <FlatList
+              data={this.state.properties}
+              extraData={this.state}
+              keyExtractor={this.keyExtractor}
+              renderItem={this.renderItem}
+            />
+          )}
+        </SafeAreaView>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: Colors.red,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+});

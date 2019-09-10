@@ -24,17 +24,18 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import PropertyListScreen from '../screen/PropertyListScreen';
+import Routes from '../navigation/Routes';
+import PropertyListScreen from '../screens/PropertyListScreen';
 
 const App = () => {
   return (
     <Fragment>
-      <SafeAreaView>
-        <PropertyListScreen />
-      </SafeAreaView>
+      <Routes />
     </Fragment>
   );
 };
+
+// const App = () => <Routes />;
 
 const styles = StyleSheet.create({
   scrollView: {
