@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import {View, Text, FlatList, StyleSheet, SafeAreaView} from 'react-native';
-import {
-  basicFetch as fetchData,
-  GET,
-  PROPERTY_LIST_END_POINT,
-} from '../lib/FetchService';
+import {get as fetchPropertyListData} from '../lib/PropertyListServices';
 import MyListItem from '../components/MyListItem';
+import {ROUTE_NAME} from '../navigation/Routes';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const delay = (ms) => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 export default class PropertyListScreen extends Component {
   state = {
@@ -22,13 +19,13 @@ export default class PropertyListScreen extends Component {
 
   getPropertyList = () => {
     this.setState({loading: true}, async () => {
-      const res = await fetchData(PROPERTY_LIST_END_POINT, null, GET);
-      console.log('>>>>>>>>>>>>>..');
-      console.log(res);
+      const res = await fetchPropertyListData();
+      // console.log('>>>>>>>>>>>>>..');
+      // console.log(res);
       // await delay(3000); //simulate long loading time
       this.setState({
         loading: false,
-        properties: res.data.results,
+        properties: res,
       });
     });
 
@@ -56,12 +53,14 @@ export default class PropertyListScreen extends Component {
   keyExtractor = (item, index) => `${item.id}`;
 
   onPressItem = id => {
-    console.log(id);
+    // console.log(id);
+    this.props.navigation.navigate(ROUTE_NAME.DETAILS);
   };
 
-  renderItem = ({item}) => {
-    // console.log('>>>>>>item');
+  renderItem = ({item, index}) => {
+    // console.log('>>>>>>index');
     // console.log(item);
+    // console.log(index);
     return (
       <MyListItem id={item.id} property={item} onPressItem={this.onPressItem} />
     );
@@ -95,10 +94,5 @@ export default class PropertyListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: Colors.red,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
   },
 });

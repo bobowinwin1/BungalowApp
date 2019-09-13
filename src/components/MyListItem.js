@@ -20,7 +20,7 @@ class MyListItem extends React.PureComponent {
     return (
       <TouchableOpacity onPress={this.onPress}>
         <View style={styles.card}>
-          <View style={styles.imagebox}>
+          <View style={styles.image_box}>
             <Image style={styles.thumbnail} source={{uri: imageUrl}} />
           </View>
           <Text>{headline}</Text>
@@ -35,19 +35,18 @@ class MyListItem extends React.PureComponent {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.red,
-    borderWidth: 1,
-    borderColor: 'grey',
+    borderWidth: 0.5,
+    borderColor: 'lightgrey',
   },
   thumbnail: {
     flexDirection: 'row',
     flex: 1,
     resizeMode: 'cover',
   },
-  imagebox: {
+  image_box: {
     flexDirection: 'row',
     flex: 1,
     height: 260,
-    backgroundColor: 'red',
   },
 });
 
