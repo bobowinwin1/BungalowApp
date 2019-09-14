@@ -13,9 +13,9 @@ export const basicFetch = async (endpoint: string, body: any, method: string) =>
       body
     )
     .then(function (response) {
-      // console.log('>>>>>response>>>>>>')
-      // console.log(response)
-      // console.log('<<<<<<<<<<<<<<<<<<<')
+      console.log('>>>>>response>>>>>>')
+      console.log(response)
+      console.log('<<<<<<<<<<<<<<<<<<<')
       return response;
     })
     .catch(function (error) {

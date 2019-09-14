@@ -52,9 +52,11 @@ export default class PropertyListScreen extends Component {
 
   keyExtractor = (item, index) => `${item.id}`;
 
-  onPressItem = id => {
-    // console.log(id);
-    this.props.navigation.navigate(ROUTE_NAME.DETAILS);
+  onPressItem = item => {
+    console.log(item);
+    this.props.navigation.navigate(ROUTE_NAME.DETAILS, {
+      property: item,
+    });
   };
 
   renderItem = ({item, index}) => {

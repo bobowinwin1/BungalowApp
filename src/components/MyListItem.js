@@ -1,21 +1,24 @@
 import * as React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {theme} from '../Themes/ThemeDefault';
+import config from '../config';
 
 class MyListItem extends React.PureComponent {
   onPress = () => {
-    this.props.onPressItem(this.props.property.id);
+    this.props.onPressItem(this.props.property);
   };
 
   render() {
     const {
       headline,
-      available_room_count,
-      earliest_available_date,
+      availableRoom,
+      availableDate,
       images,
     } = this.props.property;
 
-    const imageUrl = images && images[0] ? images[0].lg_url : '';
+    const imageUrl = images && images[0] ? images[0].lg_url : config.PlaceholderImageURL;
+
     console.log(imageUrl);
     return (
       <TouchableOpacity onPress={this.onPress}>
@@ -23,9 +26,11 @@ class MyListItem extends React.PureComponent {
           <View style={styles.image_box}>
             <Image style={styles.thumbnail} source={{uri: imageUrl}} />
           </View>
-          <Text>{headline}</Text>
-          <Text>{`Earliest Available Date: ${earliest_available_date}`}</Text>
-          <Text>{`Available Room Count: ${available_room_count}`}</Text>
+          <View style={styles.descBox}>
+            <Text style={styles.headline}>{headline}</Text>
+            <Text style={styles.descText}>{`Earliest Available Date: ${availableDate}`}</Text>
+            <Text style={styles.descText}>{`Available Room Count: ${availableRoom}`}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -34,9 +39,22 @@ class MyListItem extends React.PureComponent {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.red,
+    backgroundColor: theme.color.backgroundGrey,
     borderWidth: 0.5,
     borderColor: 'lightgrey',
+  },
+  descBox: {
+    paddingLeft: 6,
+  },
+  headline: {
+    fontWeight: 'bold',
+    fontFamily: 'Times New Roman',
+    fontSize: 18,
+    // fontStyle: 'italic',
+    // textAlign: 'justify',
+  },
+  descText: {
+    fontFamily: 'Times New Roman',
   },
   thumbnail: {
     flexDirection: 'row',
@@ -46,7 +64,7 @@ const styles = StyleSheet.create({
   image_box: {
     flexDirection: 'row',
     flex: 1,
-    height: 260,
+    height: 220,
   },
 });
 
