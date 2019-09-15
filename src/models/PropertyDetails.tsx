@@ -4,11 +4,11 @@ import roomInfo, {mapObj as mapRoomInfo} from './RoomInfo'
 export default interface PropertyDetails {
   id: string,
   slug: string,
-  amenities: any[],
+  amenities: Amenity[],
   descriptionHtml: string,
   numBathrooms: number,
   matterportUrl: string,
-  rooms: any[],
+  rooms: roomInfo[],
 }
 
 export function mapObj(values: any): PropertyDetails {

@@ -1,13 +1,16 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native'
+import React, {Fragment} from 'react';
+import {View, Text, Image, Linking, ScrollView, TouchableOpacity, StyleSheet} from 'react-native'
 import {theme} from '../Themes/ThemeDefault';
 import config from '../config';
 import {get as fetchPropertyDetailsData} from '../lib/PropertyDetailsServices';
+import { WebView } from 'react-native-webview';
+import AmenityList from '../components/AmenityList'
 
 export default class PropertyDetailsScreen extends React.Component {
   state = {
     loading: false,
     property: null,
+    details: null,
   };
   
   static navigationOptions = {
@@ -24,7 +27,7 @@ export default class PropertyDetailsScreen extends React.Component {
       // await delay(3000); //simulate long loading time
       this.setState({
         loading: false,
-        property: res,
+        details: res,
       });
     });
 
@@ -49,6 +52,32 @@ export default class PropertyDetailsScreen extends React.Component {
     // });
   };
 
+  renderInlineWebView = (source: any, style: any) => {
+    return (
+      <View style={style}>
+        <WebView
+          originWhitelist={['*']}
+          style={{ backgroundColor: 'transparent' }}
+          source={source}
+        />
+      </View>)
+  }
+
+  gotoLink = (url: string) => Linking.openURL(url)
+
+  renderDetails = () => {
+    return (
+      <Fragment>
+        <AmenityList list={this.state.details.amenities} />
+        <Text style={styles.descText}>Detailed Description: </Text>
+        {this.renderInlineWebView({html: this.state.details.descriptionHtml}, styles.descriptionBox)}
+        <TouchableOpacity onPress={() => Linking.openURL(this.state.details.matterportUrl)}>
+          <Text style={[styles.descText, styles.hyperLink]}>3D View: </Text>
+        </TouchableOpacity>
+        {this.renderInlineWebView({ uri: this.state.details.matterportUrl }, styles.matterportView)}
+      </Fragment>)
+  }
+
   componentDidMount() {
       this.getPropertyDetails();
   }
@@ -65,17 +94,17 @@ export default class PropertyDetailsScreen extends React.Component {
 
     // const name = this.props.navigation.getParam('name', 'Peter');
     return (
-      <View style = {styles.container}>
+      <ScrollView style = {styles.container}>
         <Text style={styles.title}>{headline}</Text>
         <View style={styles.imagebox}>
           <Image style={styles.thumbnail} source={{uri: imageUrl}} />
         </View>
         <View style={styles.contentBox}>
           <Text style={styles.descText}>{`Earliest Available Date: ${availableDate}`}</Text>
-          <Text style={styles.descText}>{`Available Room Count: ${availableRoom}`}</Text>          
+          <Text style={styles.descText}>{`Available Room Count: ${availableRoom}`}</Text>
+          {this.state.details && this.renderDetails()}         
         </View>
-
-      </View>      
+      </ScrollView>
     )
   }
 }
@@ -95,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '12%',
     fontWeight: 'bold',
     marginTop: 10,
+    backgroundColor: theme.color.backgroundGrey,
   },
 
   thumbnail: {
@@ -109,8 +139,26 @@ const styles = StyleSheet.create({
     height: 240,
   },
 
+  hyperLink: {
+    color: theme.color.hyperlinkColor,
+    textDecorationLine: 'underline'
+  },
+
   contentBox: {
-    marginLeft: 16,
+    marginHorizontal: 16,
+  },
+
+  descriptionBox: {
+    // marginRight: 14,
+    height: 160,
+    backgroundColor: theme.color.backgroundGrey,
+  },
+
+  matterportView: {
+    // marginRight: 14,
+    height: 300,
+    marginTop: 10,
+    marginBottom: 50,
   },
 
   descText: {
