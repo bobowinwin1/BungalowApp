@@ -6,6 +6,8 @@ import {get as fetchPropertyDetailsData} from '../lib/PropertyDetailsServices';
 import { WebView } from 'react-native-webview';
 import AmenityList from '../components/AmenityList'
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 export default class PropertyDetailsScreen extends React.Component {
   state = {
     loading: false,
@@ -30,26 +32,6 @@ export default class PropertyDetailsScreen extends React.Component {
         details: res,
       });
     });
-
-    // this.setState({loading: true}, () => {
-    //   fetchData(PROPERTY_LIST_END_POINT, null, GET)
-    //   .then(response => {
-    //     console.log('>>>>>>response');
-    //     console.log(response);
-    //     if (response) {
-    //       this.setState({
-    //         loading: false,
-    //         properties: response.data.results,
-    //       }, console.log(this.state.properties));
-    //     }
-    //   })
-    //   .catch((error: Error) => {
-    //     this.setState({loading: false})
-
-    //     console.log('Error getting properties:')
-    //     console.log(error)
-    //   });
-    // });
   };
 
   renderInlineWebView = (source: any, style: any) => {
@@ -102,7 +84,11 @@ export default class PropertyDetailsScreen extends React.Component {
         <View style={styles.contentBox}>
           <Text style={styles.descText}>{`Earliest Available Date: ${availableDate}`}</Text>
           <Text style={styles.descText}>{`Available Room Count: ${availableRoom}`}</Text>
-          {this.state.details && this.renderDetails()}         
+          {this.state.loading ? (
+            <Text>Loading...</Text>
+          ) : (
+            (this.state.details && this.renderDetails())
+          )}
         </View>
       </ScrollView>
     )
