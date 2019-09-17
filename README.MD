@@ -1,4 +1,4 @@
-- Choice of Thehnicle Choice:
+- Choice of Technical stack:
 
 1. "axios": for making remote HTTP request. 
     Chose it over fetch is for axios': 
