@@ -4,8 +4,8 @@ import Amenity from '../models/Amenity'
 
 const AmenityList = (props) =>{
     const {list} = props
-    console.log('-------AmenityList-->list------->')
-    console.log(list.length)
+    // console.log('-------AmenityList-->list------->')
+    // console.log(list.length)
     const ames = [];
     if(list && list.length){
         ames.push(<Text key='sectionName'>Amenities:</Text>)
