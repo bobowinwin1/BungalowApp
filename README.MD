@@ -1,4 +1,4 @@
-- How to run
+-How to run
 1. run "npm install" in terminal
 2. for iOS, in terminal, run npm run ios
     or the following commands,
@@ -8,7 +8,7 @@
     b. in terminal, run npm run android
         or react-native run-android
 
-- Choice of Technical stack:
+-Choice of Technical stack:
 
 1. The project is using React Native version 0.60.5
 
@@ -24,4 +24,4 @@
 
 5. "react-navigation": main navigator for the App
 
-- Didn't use Redux, or even Context, because the App's structure is not complex enough to justify the overhead of introducing them.
+-Didn't use Redux, or even Context, because the App's structure is not complex enough to justify the overhead of introducing them.
