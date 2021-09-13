@@ -4,7 +4,7 @@ import axios from 'axios'
 export const POST = 'POST'
 export const GET = 'GET'
 
-export const PROPERTY_LIST_END_POINT = 'https://fieldstone.bungalow.com/api/v1/listings/properties/?market__name=seattle'
+export const PROPERTY_LIST_END_POINT = 'https://fieldstone.bungalow.com/api/v1/listings/properties/?market__slug=seattle'
 
 export const basicFetch = async (endpoint: string, body: any, method: string) => {
   if(method === GET){

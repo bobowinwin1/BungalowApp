@@ -1,7 +1,7 @@
 import { basicFetch, GET } from './FetchService'
 import PropertyListItem, {mapObj as MapPropertyListItem} from '../models/PropertyListItem'
 
-export const PROPERTY_LIST_END_POINT = 'https://fieldstone.bungalow.com/api/v1/listings/properties/?market__name=seattle'
+export const PROPERTY_LIST_END_POINT = 'https://fieldstone.bungalow.com/api/v1/listings/properties/?market__slug=seattle'
 
 
 export const get = async () => {
